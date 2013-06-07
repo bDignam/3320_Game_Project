@@ -94,6 +94,8 @@ namespace functions
         //Initialize rooms
         room roomArray[5];
 
+        //  Enum values correspond from 0 to 4
+        //  Representing distance in memory from the beginning of the array
         enum roomName {GUARD_ROOM, COURTYARD, ART_ROOM, GREAT_HALL, DUNGEON};
 
         roomArray[GUARD_ROOM].setName("Guard Room");
@@ -125,18 +127,12 @@ namespace functions
         while (Adventurer.getMonstersKilled() < 5 && Adventurer.getHealth() > 0)
         {
             Adventurer.moveNextRoom();
-            //Adventurer.print_Score_Screen();
         }
 
         functions::clearScreen();
 
+        //Display Score Screen & return to MAIN MENU
         functions::gameOver(Adventurer);
-
-
-        //Destruct rooms
-        //delete [] roomArray;
-        //Destruct scoreboard
-        //Destruct player
     }
 
     void sleepFunc( unsigned int timeToWait )

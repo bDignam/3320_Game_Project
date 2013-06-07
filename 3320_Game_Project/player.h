@@ -19,6 +19,10 @@ Purpose:
 class player
 {
 public:
+    //PRE:  None
+    //POST: Initializes Player variables
+    //      Gives random weapon
+    //      Sets Room = NULL
     player();
 
     //PRE:  NOT run on Linux
@@ -38,8 +42,8 @@ public:
     void addTreasure(int tre) { treasure += tre; };
 
     //PRE:  None
-    //POST: Subtracts dam from Player's health
-    void takeDamage(int dam) { health -= dam; };
+    //POST: Subtracts dmg from Player's health
+    void takeDamage(int dmg);
 
     //PRE:  None
     //POST: Returns Player's health
@@ -57,28 +61,29 @@ public:
     //POST: Returns Player's Weapon's name
     const std::string getWeaponName() { return myWeapon.getName(); } ;
 
-    //PRE:
-    //POST:
+    //PRE:  None
+    //POST: Returns Weapon Damage, or 0, based on weapon's Chance to hit
     const int strike() { return myWeapon.hit(); };
 
-    //PRE:
-    //POST:
+    //PRE:  Current Room has a Monster in it
+    //POST: Returns True if Player wins
+    //      Returns False if Player dies
     bool combat();
 
-    //PRE:
-    //POST:
+    //PRE:  None
+    //POST: Returns a Pointer to the current room
     room * getCurr() {return currentRoom;};
 
-    //PRE:
-    //POST:
+    //PRE:  None
+    //POST: Asks user to choose an adjacent room to enter
+    //      Calls Combat(), and returns resulting bool
     bool moveNextRoom();
 
-    //PRE:
-    //POST:
-    template <typename T>
-        void printCombatHeader(T, T, T, T);
-
-
+    //PRE:  None
+    //POST: Prints Header information for combat sequence
+    //      This didn't need to be a template, but project specs required one, so...
+    template <typename T, typename U>
+        void printCombatHeader(T, T, U);
 
 private:
     int health;

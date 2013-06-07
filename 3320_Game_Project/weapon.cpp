@@ -35,12 +35,24 @@ weapon::weapon(const weapon& wep)
 
 const int weapon::hit()
 {
-    srand (time(NULL));
-    int randInt = rand()%100;
-    if( randInt < (chance * 100) )
-        return damage;  //HIT
-    else
-        return 0;       //MISS
+    try
+    {
+        srand (time(NULL));
+        int randInt = rand()%100;
+        if( randInt < (chance * 100) )
+            return damage;  //HIT
+        else if ( randInt < 0 )
+            throw randInt;  //Random integer error
+        else
+            return 0;       //MISS
+    }
+    catch (int badNum)
+    {
+        std::cerr << "\n\nIn function weapon::hit()\n";
+        std::cerr << "  randInt:  " << badNum << " is Out-Of-Bounds.\n";
+        std::cerr << "Aborting...\n";
+        abort();
+    }
 }
 
 weapon & weapon::operator = (const weapon &wep)

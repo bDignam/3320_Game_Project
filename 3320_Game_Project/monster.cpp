@@ -37,6 +37,20 @@ monster::monster()
     }
 }
 
+void monster::takeDamage(int dmg)
+{
+    try
+    {
+         health -= dmg;
+         if (health < 0)
+            throw health;
+    }
+    catch ( int h )         //Health cannot be negative
+    {
+        health = 0;
+    }
+}
+
 monster::monster(const monster& mon)
 {
     health = mon.health;

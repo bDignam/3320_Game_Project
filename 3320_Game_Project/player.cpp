@@ -52,33 +52,27 @@ bool player::combat()
         //FIGHT!
         functions::clearScreen();
 
+        //Copy monster by reference
         monster mon(currentRoom->getMonster());
-        //monster mon;
 
-        while ( true )
+        while ( true )      //Breaks by returning a bool when either monster or player dies
         {
             int dmg(0);
 
             //Player hits Monster
             dmg = strike();
-            mon.takeDamage( dmg );      //ADDED
+            mon.takeDamage( dmg );
 
-            //player::printCombatHeader<int>(getHealth(), 0, mon.getHealth(), dmg);
-            functions::clearScreen();
-            int pHealth = getHealth();
-            int mHealth = mon.getHealth();
-            std::cout << std::left << std::setw(35) << "Player" << mon.getName() << "\n";
-            std::cout << std::left << "Player Health: " << std::setw(20) << pHealth;
-            std::cout << "Monster Health: " << mHealth;
-            std::cout << "\n\n";
+            //Combat Header
+            player::printCombatHeader<int, std::string>(getHealth(), mon.getHealth(), mon.getName());
 
+            //Displays damage done on either side
             if( dmg > 0)
                 std::cerr << std::right << std::setw(44) << "Hit!    -" << dmg;
             else
                 std::cerr << std::right << std::setw(44) << "Miss!";
-            std::cout << "\n\n\n\n";
-            //END printCombatHeader
 
+            std::cout << "\n\n\n\n";
             currentRoom->displayDoors();
 
             //Wait
@@ -102,23 +96,18 @@ bool player::combat()
 
             //Monster hits Player
             dmg = mon.strike();
-            takeDamage( dmg );      //ADDED
+            takeDamage( dmg );
 
-            //player::printCombatHeader<int>(getHealth(), dmg, mon.getHealth(), 0);
-            functions::clearScreen();
-            std::cout << std::left << std::setw(35) << "Player" << mon.getName() << "\n";
-            std::cout << std::left << "Player Health: " << std::setw(20) << getHealth();
-            std::cout << "Monster Health: " << mon.getHealth();
-            std::cout << "\n\n";
+            //Combat Header
+            player::printCombatHeader<int, std::string>(getHealth(), mon.getHealth(), mon.getName());
 
+            //Displays damage done on either side
             if( dmg > 0)
                 std::cerr << "Hit!    -" << dmg;
             else
                 std::cerr << "Miss!";
 
             std::cout << "\n\n\n\n";
-            //END printCombatHeader
-
             currentRoom->displayDoors();
 
             //Wait
@@ -158,20 +147,28 @@ bool player::moveNextRoom()
     return combat();        //combat() only returns false if player dies
 }
 
-template <typename T>
-    void player::printCombatHeader(T pHealth, T pDmg, T mHealth, T mDmg)
+void player::takeDamage(int dmg)
+{
+    try
+    {
+         health -= dmg;
+         if (health < 0)
+            throw health;
+    }
+    catch ( int h )         //Health cannot be negative
+    {
+        health = 0;
+    }
+}
+
+template <typename T, typename U>
+    void player::printCombatHeader(T pHealth, T mHealth, U mName)
 {
     functions::clearScreen();
-    std::cout << std::left << std::setw(35) << "Player" << "MonsterName..." << "\n";
+    std::cout << std::left << std::setw(35) << "Player" << mName << "\n";
     std::cout << std::left << "Player Health: " << std::setw(20) << pHealth;
     std::cout << "Monster Health: " << mHealth;
     std::cout << "\n\n";
-
-    if( pDmg > 0)
-        std::cerr << std::right << std::setw(44) << "Hit!    -" << pDmg;
-    else
-        std::cerr << std::right << std::setw(44) << "Miss!";
-    std::cout << "\n\n\n\n";
 }
 
 void player::sleepFunc( unsigned int timeToWait )

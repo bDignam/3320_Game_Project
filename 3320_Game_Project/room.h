@@ -17,6 +17,8 @@ class room
 public:
     room();
 
+    //PRE:  None
+    //POST: returns TRUE if monster has not been killed
     const bool hasMonster() { return monsterAlive; };
 
     void setName(std::string);
@@ -26,9 +28,18 @@ public:
     const monster getMonster() { return randMonster; };
     const std::string getName() { return name; };
 
+    //PRE:  None
+    //POST: Prints formatted door pointers that have a corrosponding room
+    //      Room pointers pointing to NULL print a new line
     void displayDoors();
+
+    //PRE:  None
+    //POST: Asks user to choose a room (1 = NORTH, 2 = EAST, etc.)
+    //      Error checks for invalid choice
     int chooseAdjacentRoom();
 
+    //PRE:  None
+    //POST: Prints room name
     friend std::ostream& operator << (std::ostream &, const room&);
 
     void setNorth(room* r) { door_NORTH = r; };

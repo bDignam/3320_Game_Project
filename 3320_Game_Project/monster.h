@@ -16,16 +16,39 @@ Purpose:
 class monster
 {
 public:
+    //PRE:  None
+    //POST: Initializes Monster variables
+    //      Picks random type of monster (3 types)
+    //      Assigns corresponding weapon
     monster();
+
+    //PRE:  None
+    //POST: Copies monster by const reference
     monster(const monster&);
 
-    void takeDamage(int dmg) { health -= dmg; };
+    //PRE:  None
+    //POST: Subtracts dmg from health
+    void takeDamage(int dmg);
 
+    //PRE:  None
+    //POST: Returns health
     const int getHealth() { return health; };
+
+    //PRE:  None
+    //POST: Returns name
     const std::string getName() { return name; };
+
+    //PRE:  None
+    //POST: Returns weapon
     const weapon getWeapon() { return myWeapon; };
+
+    //PRE:  None
+    //POST: Returns weapon damage if successful hit,
+    //          otherwise returns 0
     const int strike() { return myWeapon.hit(); };
 
+    //PRE:  None
+    //POST: Copies monster by reference
     monster & operator = (const monster &mon);
 
 private:
