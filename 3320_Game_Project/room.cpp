@@ -14,11 +14,12 @@ Purpose:
 #include <cstdlib>
 #include <time.h>
 #include <vector>
+#include <iterator>
 
 room::room()
 {
     name = "";
-    treasure = 100;  //change to random?
+    treasure = 100; //Max Treasure value
 
     //Initialize Monster
     monsterAlive = true;
@@ -63,10 +64,6 @@ int room::chooseAdjacentRoom()
 {
     room::displayDoors();               //Displays list of valid doors
 
-    std::cin.clear();
-    std::cout << "  Press ENTER to continue on... ";
-    functions::getSafeInt();
-
     std::vector<int> validDoorNums;     //Vector of valid door directions
     if(door_NORTH != NULL)              //  1=NORTH, 2=EAST, etc
         validDoorNums.push_back(1);
@@ -77,11 +74,30 @@ int room::chooseAdjacentRoom()
     if(door_WEST != NULL)
         validDoorNums.push_back(4);
 
-    srand (time(NULL));
-    int randInt = rand()%(validDoorNums.size());    //Randomly chooses from door vector
+    int choice = functions::getSafeInt();
 
-    return validDoorNums[randInt];                //Returns direction valid door is in
-                                                    //  1=NORTH, 2=EAST, etc
+    std::vector<int>::iterator iter;
+    while (true)        //Keeps asking for int until choice is found in vector
+    {
+        iter = validDoorNums.begin();
+        while( iter != validDoorNums.end() )
+        {
+            if ( choice == *iter )  //If choice is a valid choice
+                return choice;
+            else
+                iter++;
+        }
+        std::cout << "\nPlease enter a valid door number [1, 2, 3, 4]\n";
+        std::cout << ">";
+        choice = functions::getSafeInt();
+    }
+
+    //Uncomment this to choose room RANDOMLY
+    //    srand (time(NULL));
+    //    int randInt = rand()%(validDoorNums.size());    //Randomly chooses from door vector
+    //
+    //    return validDoorNums[randInt];                //Returns direction valid door is in
+    //                                                    //  1=NORTH, 2=EAST, etc
 }
 
 const int room::getTreasure()

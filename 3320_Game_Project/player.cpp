@@ -36,16 +36,13 @@ player::player()
 
 void player::print_Score_Screen()
 {
-    //functions::clearScreen();
     std::cout << std::left;
     std::cout << "PLAYER STATS\n\n";
-    std::cout << std::setw(17) << "Health:  " << getHealth() << "\n";
-        std::cout << std::setw(17) << "Treasure:  " << getTreasure() << "\n";
-        std::cout << std::setw(17) << "Weapon Name:  " << getWeaponName() << "\n";
-        std::cout << std::setw(17) << "Monsters Killed: " << getMonstersKilled() << "\n";
 
-    //std::cout << "\nPress ENTER to continue...";
-    //functions::getSafeInt();
+    std::cout << std::setw(17) << "Health:  " << getHealth() << "\n";
+    std::cout << std::setw(17) << "Treasure:  " << getTreasure() << "\n";
+    std::cout << std::setw(17) << "Weapon Name:  " << getWeaponName() << "\n";
+    std::cout << std::setw(17) << "Monsters Killed: " << getMonstersKilled() << "\n";
 }
 
 bool player::combat()
@@ -63,24 +60,31 @@ bool player::combat()
             int dmg(0);
 
             //Player hits Monster
-            functions::clearScreen();
-
-            std::cout << std::left << std::setw(35) << "Player" << mon.getName() << "\n";
-            std::cout << std::left << "Player Health: " << std::setw(20) << getHealth();
-            std::cout << "Monster Health: " << mon.getHealth();
-            std::cout << "\n\n";
             dmg = strike();
+            mon.takeDamage( dmg );      //ADDED
+
+            //player::printCombatHeader<int>(getHealth(), 0, mon.getHealth(), dmg);
+            functions::clearScreen();
+            int pHealth = getHealth();
+            int mHealth = mon.getHealth();
+            std::cout << std::left << std::setw(35) << "Player" << mon.getName() << "\n";
+            std::cout << std::left << "Player Health: " << std::setw(20) << pHealth;
+            std::cout << "Monster Health: " << mHealth;
+            std::cout << "\n\n";
+
             if( dmg > 0)
                 std::cerr << std::right << std::setw(44) << "Hit!    -" << dmg;
             else
                 std::cerr << std::right << std::setw(44) << "Miss!";
             std::cout << "\n\n\n\n";
+            //END printCombatHeader
+
             currentRoom->displayDoors();
 
-            mon.takeDamage( dmg );
-
             //Wait
-            sleepFunc(1200);
+            //sleepFunc(1200);  //Didn't work on Linux, so Busy-Wait...
+            for(int i(0); i < 220000000; i++)
+            { }
 
             if (mon.getHealth() < 1)    //Monster Death Check
             {
@@ -97,28 +101,32 @@ bool player::combat()
             }
 
             //Monster hits Player
-            functions::clearScreen();
+            dmg = mon.strike();
+            takeDamage( dmg );      //ADDED
 
+            //player::printCombatHeader<int>(getHealth(), dmg, mon.getHealth(), 0);
+            functions::clearScreen();
             std::cout << std::left << std::setw(35) << "Player" << mon.getName() << "\n";
             std::cout << std::left << "Player Health: " << std::setw(20) << getHealth();
             std::cout << "Monster Health: " << mon.getHealth();
             std::cout << "\n\n";
 
-            dmg = mon.strike();
             if( dmg > 0)
                 std::cerr << "Hit!    -" << dmg;
             else
                 std::cerr << "Miss!";
 
             std::cout << "\n\n\n\n";
+            //END printCombatHeader
+
             currentRoom->displayDoors();
 
-            takeDamage( dmg );
-
             //Wait
-            sleepFunc(1200);
+            //sleepFunc(1200);  //Didn't work on Linux, so Busy-Wait...
+            for(int i(0); i < 220000000; i++)
+            { }
 
-            if (getHealth() < 1)        //Player Death Check
+            if (getHealth() < 1)    //Player Death Check
             {
                 return false;       //DEAD!
             }
@@ -148,6 +156,22 @@ bool player::moveNextRoom()
         setCurrentRoom(currentRoom->getWest());
 
     return combat();        //combat() only returns false if player dies
+}
+
+template <typename T>
+    void player::printCombatHeader(T pHealth, T pDmg, T mHealth, T mDmg)
+{
+    functions::clearScreen();
+    std::cout << std::left << std::setw(35) << "Player" << "MonsterName..." << "\n";
+    std::cout << std::left << "Player Health: " << std::setw(20) << pHealth;
+    std::cout << "Monster Health: " << mHealth;
+    std::cout << "\n\n";
+
+    if( pDmg > 0)
+        std::cerr << std::right << std::setw(44) << "Hit!    -" << pDmg;
+    else
+        std::cerr << std::right << std::setw(44) << "Miss!";
+    std::cout << "\n\n\n\n";
 }
 
 void player::sleepFunc( unsigned int timeToWait )

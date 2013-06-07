@@ -21,9 +21,6 @@ public:
 
     void takeDamage(int dmg) { health -= dmg; };
 
-    //void setHealth(int newHealth) { health = newHealth; };
-    //void setWeapon(weapon wep) { myWeapon = wep; };
-
     const int getHealth() { return health; };
     const std::string getName() { return name; };
     const weapon getWeapon() { return myWeapon; };

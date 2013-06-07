@@ -1,0 +1,68 @@
+# depslib dependency file v1.0
+1370629800 source:c:\users\mez\documents\github\3320_game_project\3320_game_project\functions.cpp
+	"functions.h"
+	"player.h"
+	<iostream>
+	<iomanip>
+	<string>
+	<sstream>
+	<ctime>
+
+1370629800 c:\users\mez\documents\github\3320_game_project\3320_game_project\functions.h
+	"player.h"
+
+1370629800 c:\users\mez\documents\github\3320_game_project\3320_game_project\player.h
+	<iostream>
+	<string>
+	"weapon.h"
+	"room.h"
+
+1370629800 c:\users\mez\documents\github\3320_game_project\3320_game_project\weapon.h
+	<string>
+
+1370629800 c:\users\mez\documents\github\3320_game_project\3320_game_project\room.h
+	<string>
+	"monster.h"
+
+1370629800 c:\users\mez\documents\github\3320_game_project\3320_game_project\monster.h
+	"weapon.h"
+	<string>
+
+1370629800 source:c:\users\mez\documents\github\3320_game_project\3320_game_project\main.cpp
+	<iostream>
+	<cstdlib>
+	"functions.h"
+	"player.h"
+	"weapon.h"
+	"room.h"
+
+1370629800 source:c:\users\mez\documents\github\3320_game_project\3320_game_project\monster.cpp
+	"monster.h"
+	<time.h>
+	<cstdlib>
+	<iostream>
+
+1370629800 source:c:\users\mez\documents\github\3320_game_project\3320_game_project\player.cpp
+	"player.h"
+	"functions.h"
+	<iostream>
+	<iomanip>
+	<ctime>
+	<cstdlib>
+
+1370629800 source:c:\users\mez\documents\github\3320_game_project\3320_game_project\room.cpp
+	"room.h"
+	"functions.h"
+	<iostream>
+	<iomanip>
+	<cstdlib>
+	<time.h>
+	<vector>
+	<iterator>
+
+1370629800 source:c:\users\mez\documents\github\3320_game_project\3320_game_project\weapon.cpp
+	"weapon.h"
+	<iostream>
+	<cstdlib>
+	<time.h>
+
