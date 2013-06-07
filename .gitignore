@@ -1,3 +1,11 @@
+#############
+## Python
+#############
+*.cbp
+*.out
+*.txt
+*.dat
+
 #################
 ## Eclipse
 #################
@@ -213,3 +221,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
